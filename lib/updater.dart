@@ -24,6 +24,7 @@ class Updater {
     required this.context,
     required this.url,
     this.optionalHeader,
+    this.optionalDownloadHeader,
     this.controller,
     this.allowSkip = true,
     this.confirmText = 'Update',
@@ -68,6 +69,9 @@ class Updater {
 
   ///Optional Headers
   Map<String,dynamic>? optionalHeader;
+
+  ///Optional Download Headers
+  Map<String,dynamic>? optionalDownloadHeader;
 
   ///Set rootNavigator value to dismiss dialog
   ///Default is `rootNavigator = true`
@@ -125,7 +129,7 @@ class Updater {
 
     controller?.setValue(UpdateStatus.Checking);
 
-    Response response = await APITask().get(url);
+    Response response = await APITask().get(url,options: Options(headers: optionalHeader));
     dynamic data = response.data;
 
     UpdateModel model = UpdateModel(
@@ -215,6 +219,7 @@ class Updater {
       allowSkip: allowSkip,
       downloadUrl: _downloadUrl,
       optionalHeader: optionalHeader,
+      optionalDownloadHeader:optionalDownloadHeader,
       backgroundDownload: backgroundDownload!,
       elevation: elevation ?? 0,
       status: _status,

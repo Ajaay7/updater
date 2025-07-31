@@ -11,12 +11,12 @@ class APITask {
 
   factory APITask() => _instance;
 
-  Future<Response<T>> get<T>(String url) async {
-    return await _dio.get<T>(url);
+  Future<Response<T>> get<T>(String url, {Options? options}) async {
+    return await _dio.get<T>(url, options: options);
   }
 
-  Future<Response<T>> post<T>(String url, Map<String, dynamic> data) async {
-    return await _dio.post<T>(url, data: data);
+  Future<Response<T>> post<T>(String url, Map<String, dynamic> data, {Options? options}) async {
+    return await _dio.post<T>(url, data: data, options: options);
   }
 
   Future<Response> download(String url, fileName,

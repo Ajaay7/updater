@@ -15,7 +15,7 @@ class DownloadCore {
   final String id;
   final String url;
   CancelToken token;
-  final Map<String,dynamic>? optionalHeader;
+  final Map<String,dynamic>? optionalDownloadHeader;
   final ValueNotifier<double> progressNotifier;
   final ValueNotifier<String> progressPercentNotifier, progressSizeNotifier;
   final UpdaterController? controller;
@@ -25,7 +25,7 @@ class DownloadCore {
     required this.id,
     required this.url,
     required this.token,
-    this.optionalHeader,
+    this.optionalDownloadHeader,
     required this.progressNotifier,
     required this.progressPercentNotifier,
     required this.progressSizeNotifier,
@@ -120,7 +120,7 @@ class DownloadCore {
             ? Options(
                 headers: {
                   'range': 'bytes=$downloadedLength-',
-                  ...?optionalHeader
+                  ...?optionalDownloadHeader
                   // 'range': 'bytes=$downloadedLength-$totalLength',
                 },
                 responseType: ResponseType.stream,

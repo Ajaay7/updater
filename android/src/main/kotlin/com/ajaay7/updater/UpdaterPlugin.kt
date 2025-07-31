@@ -1,4 +1,4 @@
-package com.marsad.updater
+package com.ajaay7.updater
 
 import androidx.annotation.NonNull
 

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.marsad.updater_example">
+    package="com.ajaay7.updater_example">
 
     <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
     

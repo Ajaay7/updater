@@ -23,6 +23,7 @@ class UpdateDialog extends StatefulWidget {
     required this.id,
     required this.enableResume,
     this.optionalHeader,
+    this.optionalDownloadHeader,
   });
 
   final BuildContext context;
@@ -39,8 +40,11 @@ class UpdateDialog extends StatefulWidget {
   ///cancel button text
   final String? cancelText;
 
-  ///Optional header for the download request
+  ///Optional header for the version check request
   final Map<String, dynamic>? optionalHeader;
+
+  ///Optional header for the download request
+  final Map<String, dynamic>? optionalDownloadHeader;
 
   ///download url of the app
   final String downloadUrl;
@@ -83,7 +87,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
       id: widget.id,
       url: widget.downloadUrl,
       token: widget.token,
-      optionalHeader: widget.optionalHeader,
+      optionalDownloadHeader: widget.optionalDownloadHeader,
       progressNotifier: progressNotifier,
       progressPercentNotifier: progressPercentNotifier,
       progressSizeNotifier: progressSizeNotifier,
