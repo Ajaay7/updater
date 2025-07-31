@@ -23,6 +23,7 @@ class Updater {
     this.id,
     required this.context,
     required this.url,
+    this.optionalHeader,
     this.controller,
     this.allowSkip = true,
     this.confirmText = 'Update',
@@ -64,6 +65,9 @@ class Updater {
 
   ///Change update dialog content text
   String contentText;
+
+  ///Optional Headers
+  Map<String,dynamic>? optionalHeader;
 
   ///Set rootNavigator value to dismiss dialog
   ///Default is `rootNavigator = true`
@@ -210,6 +214,7 @@ class Updater {
       rootNavigator: rootNavigator,
       allowSkip: allowSkip,
       downloadUrl: _downloadUrl,
+      optionalHeader: optionalHeader,
       backgroundDownload: backgroundDownload!,
       elevation: elevation ?? 0,
       status: _status,

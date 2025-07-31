@@ -8,15 +8,16 @@ import 'package:path_provider/path_provider.dart';
 import 'package:updater/updater.dart';
 import 'package:updater/utils/constants.dart';
 
+import '../model/OptionalHeader.dart';
 import 'api_task.dart';
 
 class DownloadCore {
   final String id;
   final String url;
   CancelToken token;
+  final Map<String,dynamic>? optionalHeader;
   final ValueNotifier<double> progressNotifier;
   final ValueNotifier<String> progressPercentNotifier, progressSizeNotifier;
-
   final UpdaterController? controller;
   final Function dismiss;
 
@@ -24,6 +25,7 @@ class DownloadCore {
     required this.id,
     required this.url,
     required this.token,
+    this.optionalHeader,
     required this.progressNotifier,
     required this.progressPercentNotifier,
     required this.progressSizeNotifier,
@@ -118,6 +120,7 @@ class DownloadCore {
             ? Options(
                 headers: {
                   'range': 'bytes=$downloadedLength-',
+                  ...?optionalHeader
                   // 'range': 'bytes=$downloadedLength-$totalLength',
                 },
                 responseType: ResponseType.stream,

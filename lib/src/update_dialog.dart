@@ -1,8 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:updater/src/controller.dart';
 import 'package:updater/src/download_core.dart';
 import 'package:updater/src/enums.dart';
-import 'package:updater/src/controller.dart';
 
 class UpdateDialog extends StatefulWidget {
   const UpdateDialog({
@@ -22,6 +22,7 @@ class UpdateDialog extends StatefulWidget {
     this.status = UpdateStatus.Downloading,
     required this.id,
     required this.enableResume,
+    this.optionalHeader,
   });
 
   final BuildContext context;
@@ -37,6 +38,9 @@ class UpdateDialog extends StatefulWidget {
 
   ///cancel button text
   final String? cancelText;
+
+  ///Optional header for the download request
+  final Map<String, dynamic>? optionalHeader;
 
   ///download url of the app
   final String downloadUrl;
@@ -79,6 +83,7 @@ class _UpdateDialogState extends State<UpdateDialog> {
       id: widget.id,
       url: widget.downloadUrl,
       token: widget.token,
+      optionalHeader: widget.optionalHeader,
       progressNotifier: progressNotifier,
       progressPercentNotifier: progressPercentNotifier,
       progressSizeNotifier: progressSizeNotifier,
@@ -293,36 +298,37 @@ class _UpdateDialogState extends State<UpdateDialog> {
                   },
                 ),
               ),
-              IconButton(
-                onPressed: () {
-                  if (!widget.enableResume) {
-                    core.cancel();
-                    return;
-                  }
-                  if (status == UpdateStatus.Downloading ||
-                      status == UpdateStatus.Resume) {
-                    core.pause();
-                    _updateStatus(UpdateStatus.Paused);
-                  } else if (status == UpdateStatus.Paused ||
-                      status == UpdateStatus.Cancelled) {
-                    core.resume();
-                    _updateStatus(UpdateStatus.Resume);
-                  }
+              if (widget.enableResume)
+                IconButton(
+                  onPressed: () {
+                    if (!widget.enableResume) {
+                      core.cancel();
+                      return;
+                    }
+                    if (status == UpdateStatus.Downloading ||
+                        status == UpdateStatus.Resume) {
+                      core.pause();
+                      _updateStatus(UpdateStatus.Paused);
+                    } else if (status == UpdateStatus.Paused ||
+                        status == UpdateStatus.Cancelled) {
+                      core.resume();
+                      _updateStatus(UpdateStatus.Resume);
+                    }
 
-                  // _dismiss();
-                },
-                padding: const EdgeInsets.all(6),
-                constraints: const BoxConstraints(),
-                icon: Icon(
-                  !widget.enableResume
-                      ? Icons.clear_rounded
-                      : (status == UpdateStatus.Downloading
-                          ? Icons.clear_rounded
-                          : status == UpdateStatus.Resume
-                              ? Icons.pause_rounded
-                              : Icons.play_arrow_rounded),
+                    // _dismiss();
+                  },
+                  padding: const EdgeInsets.all(6),
+                  constraints: const BoxConstraints(),
+                  icon: Icon(
+                    !widget.enableResume
+                        ? Icons.clear_rounded
+                        : (status == UpdateStatus.Downloading
+                            ? Icons.clear_rounded
+                            : status == UpdateStatus.Resume
+                                ? Icons.pause_rounded
+                                : Icons.play_arrow_rounded),
+                  ),
                 ),
-              ),
             ],
           ),
           const SizedBox(
